@@ -1,0 +1,36 @@
+{
+    "minimum-stability": "alpha",
+    "name": "craychee/rootcanal",
+    "license": "MIT",
+    "description": "Workflow manager to build a Drupal7 root with composer",
+
+    "require": {
+        "symfony/filesystem": "~2.1",
+        "symfony/finder": "~2.1",
+        "symfony/console": "~2.3",
+        "composer/composer": "~1.0@alpha"
+    },
+    "require-dev": {
+        "behat/behat": "3.0.*@dev",
+        "bossa/phpspec2-expect": "~1.0",
+        "phpspec/phpspec": "~2.0"
+    },
+
+    "config": {
+        "bin-dir": "bin"
+    },
+
+    "autoload": {
+        "psr-0": {
+            "Rootcanal": "src/"
+        }
+    },
+
+    "autoload-dev": {
+        "psr-0": {
+            "spec\\Rootcanal": "spec"
+        }
+    },
+
+    "bin": ["bin/rootcanal"]
+}
