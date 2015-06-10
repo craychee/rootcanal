@@ -16,7 +16,7 @@ class Application extends BaseApplication
      *
      * @return string The command name
      */
-    protected function getCommandName(IntputInterface $input)
+    protected function getCommandName(InputInterface $input)
     {
         return 'drupal:canal';
     }

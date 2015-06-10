@@ -5,7 +5,7 @@ namespace Rootcanal\Console;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\HelperSet;
-use Rootcanal\Config\OptionsConfig;
+use Rootcanal\Config\Config;
 use Rootcanal\IO\IOInterface;
 use Composer\IO\ConsoleIO;
 use Composer\Factory;
@@ -36,12 +36,12 @@ class IO implements IOInterface
     /**
      * @param InputInterface  $input
      * @param OutputInterface $output
-     * @param OptionsConfig   $config
+     * @param Config   $config
      */
     public function __construct(
         InputInterface $input,
         OutputInterface $output,
-        OptionsConfig $config
+        Config $config
      ) {
         $this->input   = $input;
         $this->output  = $output;

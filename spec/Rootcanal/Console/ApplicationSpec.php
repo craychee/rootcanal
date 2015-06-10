@@ -2,6 +2,7 @@
 
 namespace spec\Rootcanal\Console;
 
+use Symfony\Component\Console\Input\InputInterface;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -11,11 +12,4 @@ class ApplicationSpec extends ObjectBehavior
     {
         $this->shouldHaveType('Rootcanal\Console\Application');
     }
-
-    function it_returns_the_name_of_command()
-    {
-        $this->getCommandName()->shouldReturn('drupal:canal');
-    }
-
-
 }

@@ -2,7 +2,7 @@
 
 namespace spec\Rootcanal\Console;
 
-use Rootcanal\Config\OptionsConfig;
+use Rootcanal\Config\Config;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -15,7 +15,7 @@ class IOSpec extends ObjectBehavior
     function let(
         InputInterface $input,
         OutputInterface $output,
-        OptionsConfig $config
+        Config $config
     ) {
 
        $input->getOption('destination')->willReturn('.');

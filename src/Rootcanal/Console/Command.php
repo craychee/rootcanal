@@ -18,22 +18,24 @@ class Command extends BaseCommand
         $this
             ->setName('drupal:canal')
             ->setDefinition(array(
-                    new InputArgument(
+                    new InputOption(
                         'source',
-                        InputArgument::OPTIONAL,
+                        's',
+                        InputOption::VALUE_NONE,
                         'Path to source of the project'
                     ),
-                    new InputArgument(
+                    new InputOption(
                         'destination',
-                        InputArgument::OPTIONAL,
+                        'd',
+                        InputOption::VALUE_REQUIRED,
                         'Path to destination of the project',
                         'www'
                     ),
                     new InputOption(
                         'production',
-                        null,
+                        'p',
                         InputOption::VALUE_NONE,
-                        'Copy all files and directories'
+                        'Generate production artifact from source'
                     )
                 ))
             ->setDescription('Build a canal between composer and a working Drupal Application')
@@ -42,40 +44,16 @@ The <info>%command.name%</info> command specifications:
 
   <info>php %command.full_name%</info>
 
-Will run all the specifications in the spec directory.
+Will run generate a drupal root directory from vendor.
 
-You can choose the bootstrap file with the bootstrap option e.g.:
+You can choose the name of the destination path by specifying a destination path:
 
-  <info>php %command.full_name% --bootstrap=bootstrap.php</info>
+  <info>php %command.full_name% --destination=docroot</info>
 
-By default, you will be asked whether missing methods and classes should
-be generated. You can suppress these prompts and automatically choose not
-to generate code with:
+By default, modules, themes, and custom directories will be symlinked into a Drupal root.
+You can instead copy all files and directories with:
 
-  <info>php %command.full_name% --no-code-generation</info>
-
-You can choose to stop on failure and not attempt to run the remaining
-specs with:
-
-  <info>php %command.full_name% --stop-on-failure</info>
-
-You can opt to automatically fake return values with:
-
-  <info>php %command.full_name% --fake</info>
-
-You can choose the output format with the format option e.g.:
-
-  <info>php %command.full_name% --format=dot</info>
-
-The available formatters are:
-
-   progress (default)
-   html
-   pretty
-   junit
-   dot
-   tap
-
+  <info>php %command.full_name% --production</info>
 EOF
             )
         ;
@@ -89,5 +67,6 @@ EOF
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        print "it works!";
     }
 }
