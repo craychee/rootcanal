@@ -10,7 +10,7 @@ class ConfigSpec extends ObjectBehavior
 
     function it_says_production_mode_is_enabled_when_true()
     {
-        $this->beConstructedWith(true, null, null, null, null, null);
+        $this->beConstructedWith(true, null, null, null, null, null, null, null, null);
         $this->isProductionEnabled()->shouldReturn(true);
     }
 
@@ -22,7 +22,10 @@ class ConfigSpec extends ObjectBehavior
             '/sites/all/modules/%s',
             '/sites/all/themes/%s',
             '/sites/all/drush/%s',
-            '/profiles/%s'
+            '/profiles/%s',
+            '/sites/default/files',
+            '/sites/default/files-private',
+            '/sites/default/settings.php'
         );
         $this->getPaths()->shouldHaveKey('core');
         $this->getPaths()->shouldHaveValue('www');
@@ -34,6 +37,12 @@ class ConfigSpec extends ObjectBehavior
         $this->getPaths()->shouldHaveValue('www/sites/all/drush/%s');
         $this->getPaths()->shouldHaveKey('profile');
         $this->getPaths()->shouldHaveValue('www/profiles/%s');
+        $this->getPaths()->shouldHaveKey('files-public');
+        $this->getPaths()->shouldHaveValue('www/sites/default/files');
+        $this->getPaths()->shouldHaveKey('files-private');
+        $this->getPaths()->shouldHaveValue('www/sites/default/files-private');
+        $this->getPaths()->shouldHaveKey('settings');
+        $this->getPaths()->shouldHaveValue('www/sites/default/settings.php');
     }
 
 
@@ -45,14 +54,36 @@ class ConfigSpec extends ObjectBehavior
             '/sites/all/modules/%s',
             '/sites/all/themes/%s',
             '/sites/all/drush/%s',
-            '/profiles/%s'
+            '/profiles/%s',
+            '/sites/default/files',
+            '/sites/default/files-private',
+            '/sites/default/settings.php'
         );
         $this->getPathsByType('core')->shouldReturn('www');
         $this->getPathsByType('module')->shouldReturn('www/sites/all/modules/%s');
         $this->getPathsByType('theme')->shouldReturn('www/sites/all/themes/%s');
         $this->getPathsByType('drush')->shouldReturn('www/sites/all/drush/%s');
         $this->getPathsByType('profile')->shouldReturn('www/profiles/%s');
-       # $this->getPathsByType('files-public')->shouldReturn('www/sites/default/files');
+        $this->getPathsByType('files-public')->shouldReturn('www/sites/default/files');
+        $this->getPathsByType('files-private')->shouldReturn('www/sites/default/files-private');
+        $this->getPathsByType('settings')->shouldReturn('www/sites/default/settings.php');
+    }
+
+
+    function it_returns_the_trimmed_destination_path()
+    {
+        $this->beConstructedWith(
+            null,
+            'www/',
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+        );
+        $this->getPathsByType('core')->shouldBe('www');
     }
 
     public function getMatchers()

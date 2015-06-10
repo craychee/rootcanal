@@ -37,17 +37,17 @@ class Config
     /*
      * @var string
      */
-    private $filesPublicSourcePath;
+    private $filesPublicPath;
 
     /*
      * @var string
      */
-    private $filesPrivateSourcePath;
+    private $filesPrivatePath;
 
     /*
      * @var string
      */
-    private $settingsSourcePath;
+    private $settingsPath;
 
     public function __construct(
         $productionMode,
@@ -55,15 +55,21 @@ class Config
         $modulePath,
         $themePath,
         $drushPath,
-        $profilePath
+        $profilePath,
+        $filesPublicPath,
+        $filesPrivatePath,
+        $settingsPath
     )
     {
-        $this->productionMode         = $productionMode;
-        $this->destination            = $destination;
-        $this->modulePath             = $modulePath;
-        $this->themePath              = $themePath;
-        $this->drushPath              = $drushPath;
-        $this->profilePath            = $profilePath;
+        $this->productionMode   = $productionMode;
+        $this->destination      = rtrim($destination, DIRECTORY_SEPARATOR);
+        $this->modulePath       = $modulePath;
+        $this->themePath        = $themePath;
+        $this->drushPath        = $drushPath;
+        $this->profilePath      = $profilePath;
+        $this->filesPublicPath  = $filesPublicPath;
+        $this->filesPrivatePath = $filesPrivatePath;
+        $this->settingsPath     = $settingsPath;
     }
 
     public function isProductionEnabled()
@@ -74,11 +80,14 @@ class Config
     public function getPaths()
     {
         return [
-                'core'    => $this->destination,
-                'module'  => $this->destination . $this->modulePath,
-                'theme'   => $this->destination . $this->themePath,
-                'drush'   => $this->destination . $this->drushPath,
-                'profile' => $this->destination . $this->profilePath,
+                'core'          => $this->destination,
+                'module'        => $this->destination . $this->modulePath,
+                'theme'         => $this->destination . $this->themePath,
+                'drush'         => $this->destination . $this->drushPath,
+                'profile'       => $this->destination . $this->profilePath,
+                'files-public'  => $this->destination . $this->filesPublicPath,
+                'files-private' => $this->destination . $this->filesPrivatePath,
+                'settings'      => $this->destination . $this->settingsPath,
             ];
     }
 

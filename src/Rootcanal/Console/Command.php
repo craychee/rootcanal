@@ -2,9 +2,10 @@
 
 namespace Rootcanal\Console;
 
+use Rootcanal\Config\Config;
+use Rootcanal\Config\Finder;
 use Symfony\Component\Console\Command\Command as BaseCommand;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -67,6 +68,29 @@ EOF
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        print "it works!";
+        $config = new Config(
+            $input->getOption('production'),
+            $input->getOption('destination'),
+            '/sites/all/modules/%s',
+            '/sites/all/themes/%s',
+            '/sites/all/drush/%s',
+            '/profiles/%s',
+            '/sites/default/files',
+            '/sites/default/files-private',
+            '/sites/default/settings.php'
+        );
+
+        $finder = new Finder(
+           # $input->getOption('source'),
+            'fixture',
+            $input->getOption('destination'),
+            'cnf/files',
+            'cnf/private',
+            'cnf/settings.php'
+        );
+        print_r($finder->getName());
+
+#        print_r($config);
+#        print_r($finder);
     }
 }
