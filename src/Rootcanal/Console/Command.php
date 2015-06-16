@@ -29,7 +29,7 @@ class Command extends BaseCommand
                 new InputOption(
                     'source',
                     's',
-                    InputOption::VALUE_NONE,
+                    InputOption::VALUE_OPTIONAL,
                     'Path to source of the custom files and directories'
                 ),
                 new InputOption(
@@ -40,10 +40,17 @@ class Command extends BaseCommand
                     'www'
                 ),
                 new InputOption(
-                    'production',
-                    'p',
+                    'prod',
+                    false,
                     InputOption::VALUE_NONE,
                     'Generate production artifact from source'
+                ),
+                new InputOption(
+                    'clean',
+                    'c',
+                    InputOption::VALUE_IS_ARRAY | InputOption::VALUE_OPTIONAL,
+                    'Remove these files when generating production artifact.',
+                    array('*.md', '*.txt', '*.install', 'LICENSE')
                 )
             ))
             ->setDescription('Build a canal between composer and a working Drupal Application')
@@ -72,8 +79,8 @@ EOF
     }
 
     /**
-     * This method has been lifted from Composer/Console/Application to suit our
-     * purposes of accessing the Installation and Repository Manager.
+     * This method has been lifted from Composer/Console/Application to access
+     * an instance of composer outside the context of a composer command event.
      *
      * @param  bool $required
      * @param  bool $disablePlugins
@@ -114,8 +121,9 @@ EOF
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $config = new Config(
-            $input->getOption('production'),
+            $input->getOption('prod'),
             $input->getOption('destination'),
+            $input->getOption('clean'),
             '/sites/all/modules/%s',
             '/sites/all/themes/%s',
             '/sites/all/drush/%s',
@@ -139,5 +147,6 @@ EOF
         $mapper = new Mapper($config, $finder, $im, $rm);
         $mapper->clear();
         $mapper->mirror($mapper->getMap());
+        $mapper->clean();
     }
 }

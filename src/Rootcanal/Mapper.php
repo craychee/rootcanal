@@ -53,7 +53,7 @@ class Mapper
         return $this->fs ? $this->fs : $this->fs = new Filesystem();
     }
 
-    public function getPackages()
+    protected function getPackages()
     {
         return $this->rm->getLocalRepository()->getCanonicalPackages();
     }
@@ -61,7 +61,7 @@ class Mapper
     /**
      * @param Composer\Package\CompletePackage Instance
      */
-    public function getInstallPath($package)
+    protected function getInstallPath($package)
     {
         return $this->im
             ->getInstaller($package->getType())
@@ -131,7 +131,7 @@ class Mapper
         return $paths;
     }
 
-    public function mapCustomFiles()
+    protected function mapCustomFiles()
     {
         $paths = [];
 
@@ -191,7 +191,7 @@ class Mapper
      *
      * @returns array $paths
      */
-    public function mapContrib()
+    protected function mapContrib()
     {
         $root    = $this->finder->getSourceRoot();
         $pathMap = $this->config->getPaths();
@@ -231,7 +231,7 @@ class Mapper
     /**
      * @param Composer\Package\CompletePackage Instance
      */
-    public function getDrupalType($package)
+    protected function getDrupalType($package)
     {
         if (strpos($package->getType(), 'drupal') === 0) {
 
@@ -296,6 +296,28 @@ class Mapper
                     }
                 }
             }
+        }
+    }
+
+    public function clean()
+    {
+        if ($this->config->isProductionEnabled()) {
+
+            $files = $this->finder->getFinder()
+                ->ignoreUnreadableDirs()
+                ->notName('robots.txt')
+                ->in($this->config->getPathsByType('core'));
+
+            foreach ($this->config->getClean() as $remove) {
+                $files->name($remove);
+            }
+
+            foreach ($files as $file) {
+                $removePaths[] = $file->getRealPath();
+            }
+
+        $this->getFS()->remove($removePaths);
+
         }
     }
 }
