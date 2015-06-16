@@ -16,7 +16,7 @@ class FinderSpec extends ObjectBehavior
     function it_returns_the_source_root_path()
     {
         $this->beConstructedWith('.', null, null, null, null);
-        $this->getSourceRoot()->shouldBe('.');
+        $this->getSourceRoot()->shouldBe(getcwd() . '/.');
     }
 
     function it_returns_ignored_directories_inside_source_including_destination()
@@ -28,7 +28,7 @@ class FinderSpec extends ObjectBehavior
     function it_returns_the_trimmed_source_root_path()
     {
         $this->beConstructedWith('something/', null, null, null, null);
-        $this->getSourceRoot()->shouldBe('something');
+        $this->getSourceRoot()->shouldBe(getcwd() . '/something');
     }
 
     function it_returns_the_source_path_to_public_files()

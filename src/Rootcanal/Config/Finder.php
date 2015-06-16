@@ -96,6 +96,11 @@ class Finder
         return new BaseFinder();
     }
 
+    /**
+     * @param string $type The type of custom directory to search for.
+     *
+     * @return Finder instance
+     */
     public function getFinderByType($type)
     {
         if (is_dir($dir = $this->getSourceRoot() . DIRECTORY_SEPARATOR . "{$type}s")) {
@@ -110,6 +115,11 @@ class Finder
         return [];
     }
 
+    /**
+     * @param bool $custom Custom file extension to filter.
+     *
+     * @return Finder instance
+     */
     public function getCustomFilesFinder($custom = false)
     {
         $finder = $this->getFinder()
@@ -131,6 +141,9 @@ class Finder
         return $finder;
     }
 
+    /**
+     * @return string $name
+     */
     public function getName()
     {
         foreach ($this->getCustomFilesFinder('info')->files() as $file) {

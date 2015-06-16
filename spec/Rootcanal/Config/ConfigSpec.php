@@ -28,21 +28,21 @@ class ConfigSpec extends ObjectBehavior
             '/sites/default/settings.php'
         );
         $this->getPaths()->shouldHaveKey('core');
-        $this->getPaths()->shouldHaveValue('www');
+        $this->getPaths()->shouldHaveValue(getcwd() . '/www');
         $this->getPaths()->shouldHaveKey('module');
-        $this->getPaths()->shouldHaveValue('www/sites/all/modules/%s');
+        $this->getPaths()->shouldHaveValue(getcwd() . '/www/sites/all/modules/%s');
         $this->getPaths()->shouldHaveKey('theme');
-        $this->getPaths()->shouldHaveValue('www/sites/all/themes/%s');
+        $this->getPaths()->shouldHaveValue(getcwd() . '/www/sites/all/themes/%s');
         $this->getPaths()->shouldHaveKey('drush');
-        $this->getPaths()->shouldHaveValue('www/sites/all/drush/%s');
+        $this->getPaths()->shouldHaveValue(getcwd() . '/www/sites/all/drush/%s');
         $this->getPaths()->shouldHaveKey('profile');
-        $this->getPaths()->shouldHaveValue('www/profiles/%s');
+        $this->getPaths()->shouldHaveValue(getcwd() . '/www/profiles/%s');
         $this->getPaths()->shouldHaveKey('files-public');
-        $this->getPaths()->shouldHaveValue('www/sites/default/files');
+        $this->getPaths()->shouldHaveValue(getcwd() . '/www/sites/default/files');
         $this->getPaths()->shouldHaveKey('files-private');
-        $this->getPaths()->shouldHaveValue('www/sites/default/files-private');
+        $this->getPaths()->shouldHaveValue(getcwd() . '/www/sites/default/files-private');
         $this->getPaths()->shouldHaveKey('settings');
-        $this->getPaths()->shouldHaveValue('www/sites/default/settings.php');
+        $this->getPaths()->shouldHaveValue(getcwd() . '/www/sites/default/settings.php');
     }
 
 
@@ -59,16 +59,15 @@ class ConfigSpec extends ObjectBehavior
             '/sites/default/files-private',
             '/sites/default/settings.php'
         );
-        $this->getPathsByType('core')->shouldReturn('www');
-        $this->getPathsByType('module')->shouldReturn('www/sites/all/modules/%s');
-        $this->getPathsByType('theme')->shouldReturn('www/sites/all/themes/%s');
-        $this->getPathsByType('drush')->shouldReturn('www/sites/all/drush/%s');
-        $this->getPathsByType('profile')->shouldReturn('www/profiles/%s');
-        $this->getPathsByType('files-public')->shouldReturn('www/sites/default/files');
-        $this->getPathsByType('files-private')->shouldReturn('www/sites/default/files-private');
-        $this->getPathsByType('settings')->shouldReturn('www/sites/default/settings.php');
+        $this->getPathsByType('core')->shouldReturn(getcwd() . '/www');
+        $this->getPathsByType('module')->shouldReturn(getcwd() . '/www/sites/all/modules/%s');
+        $this->getPathsByType('theme')->shouldReturn(getcwd() . '/www/sites/all/themes/%s');
+        $this->getPathsByType('drush')->shouldReturn(getcwd() . '/www/sites/all/drush/%s');
+        $this->getPathsByType('profile')->shouldReturn(getcwd() . '/www/profiles/%s');
+        $this->getPathsByType('files-public')->shouldReturn(getcwd() . '/www/sites/default/files');
+        $this->getPathsByType('files-private')->shouldReturn(getcwd() . '/www/sites/default/files-private');
+        $this->getPathsByType('settings')->shouldReturn(getcwd() . '/www/sites/default/settings.php');
     }
-
 
     function it_returns_the_trimmed_destination_path()
     {
@@ -83,7 +82,23 @@ class ConfigSpec extends ObjectBehavior
             null,
             null
         );
-        $this->getPathsByType('core')->shouldBe('www');
+        $this->getPathsByType('core')->shouldBe(getcwd() . '/www');
+    }
+
+    function it_returns_the_vendor_destination_path()
+    {
+        $this->beConstructedWith(
+            null,
+            'www',
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+        );
+        $this->getPathsByType('vendor')->shouldBe(getcwd() . '/www/sites/default/vendor');
     }
 
     public function getMatchers()

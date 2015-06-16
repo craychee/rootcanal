@@ -74,10 +74,16 @@ class Mapper
             $this->mapContrib(),
             $this->mapCustomByType('module'),
             $this->mapCustomByType('theme'),
-            #$this->mapCustomFiles(),
+            $this->mapCustomFiles(),
             $this->mapSettings(),
             $this->mapFiles()
         );
+    }
+
+    public function clear()
+    {
+        $this->getFS()
+            ->remove(['directory', $this->config->getPathsByType('core')]);
     }
 
     public function mapFiles()
@@ -111,23 +117,30 @@ class Mapper
             ];
     }
 
+    /**
+     * @param string $type The type of custom directory (module or theme)
+     */
     public function mapCustomByType($type)
     {
-        $finder = $this->finder->getFinderByType($type);
-        $paths = $this->mapCustom($type, $finder);
+        $paths = [];
+
+        if ($finder = $this->finder->getFinderByType($type)) {
+            $paths = $this->mapCustom($type, $finder);
+        }
 
         return $paths;
     }
 
     public function mapCustomFiles()
     {
+        $paths = [];
+
         if ($name = $this->finder->getName()) {
             $finder = $this->finder->getCustomFilesFinder();
             $paths = $this->mapCustom('custom', $finder, $name);
-
-            print_r($paths);
-            return $paths;
         }
+
+        return $paths;
     }
 
     /**
@@ -231,5 +244,58 @@ class Mapper
         }
 
         return false;
+    }
+
+    /**
+     * Given the source and destination path map, build the Drupal root.
+     *
+     * @param array $map The result of $this->getMap()
+     */
+    public function mirror($map)
+    {
+        $fs = $this->getFS();
+        $root = $this->finder->getSourceRoot();
+
+        foreach ($map as $type => $pathMap) {
+            foreach ($pathMap as $sourcePath => $destinationPath) {
+                if ($fs->exists($root . DIRECTORY_SEPARATOR . $sourcePath)) {
+
+                    if ($type === 'core') {
+                        $fs->mirror(
+                            $root . DIRECTORY_SEPARATOR . $sourcePath,
+                            $destinationPath
+                        );
+                    }
+
+                    elseif ($this->config->isProductionEnabled() === true) {
+
+                        if (is_dir($root . DIRECTORY_SEPARATOR . $sourcePath)) {
+                            $fs->mirror(
+                                $root . DIRECTORY_SEPARATOR . $sourcePath,
+                                $destinationPath
+                            );
+                        }
+
+                        else {
+                            $fs->copy(
+                                $root . DIRECTORY_SEPARATOR . $sourcePath,
+                                $destinationPath
+                            );
+                        }
+                    }
+
+                    else {
+                        $fs->symlink(
+                            rtrim(substr($fs->makePathRelative(
+                                $root . DIRECTORY_SEPARATOR . $sourcePath,
+                                $destinationPath
+                            ), 3), DIRECTORY_SEPARATOR),
+                            $destinationPath,
+                            true
+                        );
+                    }
+                }
+            }
+        }
     }
 }

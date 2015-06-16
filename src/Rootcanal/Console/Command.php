@@ -72,15 +72,20 @@ EOF
     }
 
     /**
+     * This method has been lifted from Composer/Console/Application to suit our
+     * purposes of accessing the Installation and Repository Manager.
+     *
      * @param  bool $required
      * @param  bool $disablePlugins
+     *
      * @throws JsonValidationException
      * @return \Composer\Composer
      */
     public function getComposer($required = true, $disablePlugins = false)
     {
+        $io = $this->getApplication()->getIO();
+
         if (null === $this->composer) {
-            $io = $this->getApplication()->getIO();
             try {
                 $this->composer = Factory::create($io, null, $disablePlugins);
             } catch (\InvalidArgumentException $e) {
@@ -103,6 +108,8 @@ EOF
      * @param OutputInterface $output
      *
      * @return mixed
+     *
+     * @TODO instantiate instances of Config and Finder with default yml.
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -120,7 +127,6 @@ EOF
 
         $finder = new Finder(
              $input->getOption('source'),
-           # 'fixture',
             $input->getOption('destination'),
             'cnf/files',
             'cnf/private',
@@ -131,9 +137,7 @@ EOF
         $rm = $this->getComposer()->getRepositoryManager();
 
         $mapper = new Mapper($config, $finder, $im, $rm);
-       # print_r($mapper->mapCustomFiles());
-        print_r($mapper->getMap());
-        #print_r($mapper->mapCustomByType('module'));
-
+        $mapper->clear();
+        $mapper->mirror($mapper->getMap());
     }
 }
