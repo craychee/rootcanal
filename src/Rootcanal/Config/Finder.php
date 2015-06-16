@@ -9,7 +9,7 @@ class Finder
     /*
      * @var string
      */
-    private $file;
+    private $name;
 
     /*
      * @var string
@@ -64,7 +64,9 @@ class Finder
 
     public function getSourceRoot()
     {
-        return $this->sourceRoot;
+        $fullSourceRoot = implode(DIRECTORY_SEPARATOR, [getcwd(), $this->sourceRoot]);
+
+        return $fullSourceRoot;
     }
 
     public function getIgnoredDirs()
@@ -108,7 +110,7 @@ class Finder
         return [];
     }
 
-    public function getCustomFilesFinder()
+    public function getCustomFilesFinder($custom = false)
     {
         $finder = $this->getFinder()
             ->ignoreUnreadableDirs()
@@ -116,8 +118,14 @@ class Finder
             ->in($this->getSourceRoot())
             ->exclude($this->getIgnoredDirs());
 
-        foreach ($this->customFileExtentions as $extension) {
-            $finder->name("*.{$extension}");
+        if ($custom) {
+            $finder->name("*.{$custom}");
+        }
+
+        else {
+            foreach ($this->customFileExtentions as $extension) {
+                $finder->name("*.{$extension}");
+            }
         }
 
         return $finder;
@@ -125,11 +133,10 @@ class Finder
 
     public function getName()
     {
-        foreach ($this->getCustomFilesFinder()->files()->name('*.info')
-            as $file) {
-            $this->file = basename($file->getFilename(), ".info");
+        foreach ($this->getCustomFilesFinder('info')->files() as $file) {
+            $this->name = basename($file->getFilename(), ".info");
         };
 
-        return $this->file;
+        return $this->name;
     }
 }
