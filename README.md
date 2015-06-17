@@ -15,7 +15,7 @@ Will run generate a drupal root directory inside a `www` directory using your co
 
 You can override the default name of the destination path with:  
 ```
-php bin/canal --destination=docroot
+bin/canal --destination=docroot
 ```
 You can override the default source path of your custom directories and files with:  
 ```
