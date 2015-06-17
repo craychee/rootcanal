@@ -1,7 +1,7 @@
 Vagrant.configure("2") do |config|
 
   ip          = '10.33.36.16'
-  project     = 'tangler'
+  project     = 'rootcanal'
   path        = "/var/www/sites/#{project}.dev"
 
   config.vm.box     = "craychee/drupal-ubuntu"
