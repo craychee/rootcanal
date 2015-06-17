@@ -57,22 +57,26 @@ class Command extends BaseCommand
             ->setHelp(<<<EOF
 The <info>%command.name%</info> command specifications:
 
-  <info>php %command.full_name%</info>
+  <info>%command.full_name%</info>
 
 Will run generate a drupal root directory inside 'www' using your composer installation and custom files and directories that are in your project's root.
 
 You can override the default name of the destination path with:
 
-  <info>php %command.full_name% --destination=docroot</info>
+  <info>%command.full_name% --destination=docroot</info>
 
 You can override the default source path of your custom directories and files with:
 
-  <info>php %command.full_name% --source=my_custom_dir</info>
+  <info>%command.full_name% --source=my_custom_dir</info>
 
 By default, modules, themes, and custom directories will be symlinked into a Drupal root.
 You can instead copy all files and directories with:
 
-  <info>php %command.full_name% --production</info>
+  <info>%command.full_name% --production</info>
+
+Also by default, when the production is enabled, files and directories matching '*.md', '*.txt', '*.install', 'LICENSE' will be removed. This can be overridden with:
+
+  <info>%command.full_name% --clean=['custom']</info>
 EOF
         )
             ;
