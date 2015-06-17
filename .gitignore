@@ -1,3 +1,5 @@
 .vagrant
 vendor
 www
+bin
+!bin/canal
