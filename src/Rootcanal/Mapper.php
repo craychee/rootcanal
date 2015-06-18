@@ -75,6 +75,7 @@ class Mapper
             $this->mapCustomByType('module'),
             $this->mapCustomByType('theme'),
             $this->mapCustomFiles(),
+            $this->mapVendor(),
             $this->mapSettings(),
             $this->mapFiles()
         );
