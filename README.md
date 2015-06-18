@@ -24,7 +24,7 @@ bin/canal --source=my_custom_dir
 By default, modules, themes, and custom directories will be symlinked into a Drupal root.
 You can instead copy all files and directories with:  
 ```
-bin/canal --production
+bin/canal --prod
 ```
 Also by default, when the production is enabled, files and directories matching `*.md`, `*.txt`, `*.install`, and `LICENSE` will be removed. This can be overridden with:  
 ```

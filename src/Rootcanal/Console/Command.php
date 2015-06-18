@@ -65,14 +65,14 @@ You can override the default name of the destination path with:
 
   <info>%command.full_name% --destination=docroot</info>
 
-You can override the default source path of your custom directories and files with:
+You can override the default source path of your project with:
 
   <info>%command.full_name% --source=my_custom_dir</info>
 
 By default, modules, themes, and custom directories will be symlinked into a Drupal root.
 You can instead copy all files and directories with:
 
-  <info>%command.full_name% --production</info>
+  <info>%command.full_name% --prod</info>
 
 Also by default, when the production is enabled, files and directories matching '*.md', '*.txt', '*.install', 'LICENSE' will be removed. This can be overridden with:
 
