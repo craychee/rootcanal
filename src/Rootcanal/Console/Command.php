@@ -50,7 +50,7 @@ class Command extends BaseCommand
                     'c',
                     InputOption::VALUE_IS_ARRAY | InputOption::VALUE_OPTIONAL,
                     'Remove these files when generating production artifact.',
-                    array('*.md', '*.txt', '*.install', 'LICENSE')
+                    array('*.md', '*.txt', 'LICENSE')
                 )
             ))
             ->setDescription('Build a canal between composer and a working Drupal Application')
