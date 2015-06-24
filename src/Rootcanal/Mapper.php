@@ -300,9 +300,13 @@ class Mapper
         }
     }
 
+    /**
+     * If production is enabled, remove specified files from destination root.
+     */
     public function clean()
     {
         if ($this->config->isProductionEnabled()) {
+            $removePaths = [];
 
             $files = $this->finder->getFinder()
                 ->ignoreUnreadableDirs()
@@ -317,7 +321,7 @@ class Mapper
                 $removePaths[] = $file->getRealPath();
             }
 
-        $this->getFS()->remove($removePaths);
+            $this->getFS()->remove($removePaths);
 
         }
     }
