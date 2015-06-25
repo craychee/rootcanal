@@ -151,6 +151,5 @@ EOF
         $mapper = new Mapper($config, $finder, $im, $rm);
         $mapper->clear();
         $mapper->mirror($mapper->getMap());
-        $mapper->clean();
     }
 }
