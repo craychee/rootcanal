@@ -1,6 +1,6 @@
 # Drupal RootCanal
 
-[![Build Status](https://travis-ci.org/craychee/RootCanal.svg?branch=master)](https://travis-ci.org/craychee/RootCanal)
+[![Build Status](https://travis-ci.org/craychee/rootcanal.svg?branch=master)](https://travis-ci.org/craychee/rootcanal)
 
 This library canals a composer vendor directory and a project's custom files and directories into a Drupal(7) webroot. The webroot is assembled either by symlinking custom directories and contrib modules into the Drupal root (recommended for development) or copying all files into the webroot and removing specified files and directories (recommended for production).
 
