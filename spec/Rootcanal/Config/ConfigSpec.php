@@ -19,27 +19,9 @@ class ConfigSpec extends ObjectBehavior
             null,
             null,
             null,
-            null,
             null
         );
         $this->isProductionEnabled()->shouldReturn(true);
-    }
-
-    function it_returns_array_of_files_to_clean()
-    {
-        $this->beConstructedWith(
-            null,
-            null,
-            array('*.md', 'LICENSE'),
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null
-        );
-        $this->getClean()->shouldReturn(array('*.md', 'LICENSE'));
     }
 
     function it_should_have_specified_drupal_destinations_by_default()
@@ -47,7 +29,6 @@ class ConfigSpec extends ObjectBehavior
         $this->beConstructedWith(
             true,
             'www',
-            null,
             '/sites/all/modules/%s',
             '/sites/all/themes/%s',
             '/sites/all/drush/%s',
@@ -80,7 +61,6 @@ class ConfigSpec extends ObjectBehavior
         $this->beConstructedWith(
             true,
             'www',
-            null,
             '/sites/all/modules/%s',
             '/sites/all/themes/%s',
             '/sites/all/drush/%s',
@@ -110,7 +90,6 @@ class ConfigSpec extends ObjectBehavior
             null,
             null,
             null,
-            null,
             null
         );
         $this->getPathsByType('core')->shouldBe(getcwd() . '/www');
@@ -121,7 +100,6 @@ class ConfigSpec extends ObjectBehavior
         $this->beConstructedWith(
             null,
             'www',
-            null,
             null,
             null,
             null,
