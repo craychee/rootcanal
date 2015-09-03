@@ -45,13 +45,6 @@ class Command extends BaseCommand
                     InputOption::VALUE_NONE,
                     'Generate production artifact from source'
                 ),
-                new InputOption(
-                    'clean',
-                    'c',
-                    InputOption::VALUE_IS_ARRAY | InputOption::VALUE_OPTIONAL,
-                    'Remove these files when generating production artifact.',
-                    array('*.md', '*.txt', 'LICENSE')
-                )
             ))
             ->setDescription('Build a canal between composer and a working Drupal Application')
             ->setHelp(<<<EOF
@@ -73,10 +66,6 @@ By default, modules, themes, and custom directories will be symlinked into a Dru
 You can instead copy all files and directories with:
 
   <info>%command.full_name% --prod</info>
-
-Also by default, when the production is enabled, files and directories matching '*.md', '*.txt', '*.install', 'LICENSE' will be removed. This can be overridden with:
-
-  <info>%command.full_name% --clean=['custom']</info>
 EOF
         )
             ;
@@ -127,7 +116,6 @@ EOF
         $config = new Config(
             $input->getOption('prod'),
             $input->getOption('destination'),
-            $input->getOption('clean'),
             '/sites/all/modules/%s',
             '/sites/all/themes/%s',
             '/sites/all/drush/%s',
