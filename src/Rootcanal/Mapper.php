@@ -299,30 +299,4 @@ class Mapper
             }
         }
     }
-
-    /**
-     * If production is enabled, remove specified files from destination root.
-     */
-    public function clean()
-    {
-        if ($this->config->isProductionEnabled()) {
-            $removePaths = [];
-
-            $files = $this->finder->getFinder()
-                ->ignoreUnreadableDirs()
-                ->notName('robots.txt')
-                ->in($this->config->getPathsByType('core'));
-
-            foreach ($this->config->getClean() as $remove) {
-                $files->name($remove);
-            }
-
-            foreach ($files as $file) {
-                $removePaths[] = $file->getRealPath();
-            }
-
-            $this->getFS()->remove($removePaths);
-
-        }
-    }
 }

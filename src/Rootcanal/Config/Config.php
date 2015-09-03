@@ -15,11 +15,6 @@ class Config
     private $destination;
 
     /*
-     * @var array
-     */
-    private $clean;
-
-    /*
      * @var string
      */
     private $modulePath;
@@ -62,7 +57,6 @@ class Config
     public function __construct(
         $productionMode,
         $destination,
-        $clean,
         $modulePath,
         $themePath,
         $drushPath,
@@ -74,7 +68,6 @@ class Config
     {
         $this->productionMode   = $productionMode;
         $this->destination      = $this->getDestination($destination);
-        $this->clean            = $clean;
         $this->modulePath       = $modulePath;
         $this->themePath        = $themePath;
         $this->drushPath        = $drushPath;
@@ -91,11 +84,6 @@ class Config
     public function isProductionEnabled()
     {
         return $this->productionMode;
-    }
-
-    public function getClean()
-    {
-        return $this->clean;
     }
 
     public function getDestination($relDest)
