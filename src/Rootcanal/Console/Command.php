@@ -27,19 +27,6 @@ class Command extends BaseCommand
             ->setName('drupal:canal')
             ->setDefinition(array(
                 new InputOption(
-                    'source',
-                    's',
-                    InputOption::VALUE_OPTIONAL,
-                    'Path to source of the custom files and directories'
-                ),
-                new InputOption(
-                    'destination',
-                    'd',
-                    InputOption::VALUE_REQUIRED,
-                    'Path to destination of the project',
-                    'www'
-                ),
-                new InputOption(
                     'prod',
                     false,
                     InputOption::VALUE_NONE,
@@ -52,20 +39,9 @@ The <info>%command.name%</info> command specifications:
 
   <info>%command.full_name%</info>
 
-Will run generate a drupal root directory inside 'www' using your composer installation and custom files and directories that are in your project's root.
+Will run generate a drupal root directory inside <comment>www</comment> using your composer installation and custom files and directories that are in your project's root.
 
-You can override the default name of the destination path with:
-
-  <info>%command.full_name% --destination=docroot</info>
-
-You can override the default source path of your project with:
-
-  <info>%command.full_name% --source=my_custom_dir</info>
-
-By default, modules, themes, and custom directories will be symlinked into a Drupal root.
-You can instead copy all files and directories with:
-
-  <info>%command.full_name% --prod</info>
+You can override the destination and source defaults with your own <comment>drupal.yml</comment>. See this project's <comment>README</comment> for me details.
 EOF
         )
             ;
@@ -109,33 +85,13 @@ EOF
      *
      * @return mixed
      *
-     * @TODO instantiate instances of Config and Finder with default yml.
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $config = new Config(
-            $input->getOption('prod'),
-            $input->getOption('destination'),
-            '/sites/all/modules/%s',
-            '/sites/all/themes/%s',
-            '/sites/all/drush/%s',
-            '/profiles/%s',
-            '/sites/default/files',
-            '/sites/default/files-private',
-            '/sites/default/settings.php'
-        );
-
-        $finder = new Finder(
-             $input->getOption('source'),
-            $input->getOption('destination'),
-            'cnf/files',
-            'cnf/private',
-            'cnf/settings.php'
-        );
-
-        $im = $this->getComposer()->getInstallationManager();
-        $rm = $this->getComposer()->getRepositoryManager();
-
+        $config = new Config($input->getOption('prod'));
+        $finder = new Finder($config);
+        $im     = $this->getComposer()->getInstallationManager();
+        $rm     = $this->getComposer()->getRepositoryManager();
         $mapper = new Mapper($config, $finder, $im, $rm);
         $mapper->clear();
         $mapper->mirror($mapper->getMap());
