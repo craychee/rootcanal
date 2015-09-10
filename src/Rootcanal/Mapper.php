@@ -72,6 +72,7 @@ class Mapper
     {
         return array_merge(
             $this->mapContrib(),
+            $this->mapCustomByType('profile'),
             $this->mapCustomByType('module'),
             $this->mapCustomByType('theme'),
             $this->mapCustomFiles(),
