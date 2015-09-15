@@ -6,8 +6,7 @@
     "require": {
         "symfony/filesystem": "~2.1",
         "symfony/finder": "~2.1",
-        "symfony/console": "~2.3",
-        "composer/composer": "~1.0@alpha"
+        "symfony/console": "~2.3"
     },
 
     "require-dev": {
