@@ -2,6 +2,7 @@
 
 namespace Rootcanal\Config;
 
+use Rootcanal\Config\Config;
 use Symfony\Component\Finder\Finder as BaseFinder;
 
 class Finder
@@ -14,81 +15,49 @@ class Finder
     /*
      * @var string
      */
-    private $sourceRoot;
-
-    /*
-     * @var string
-     */
-    private $filesPublicSourcePath;
-
-    /*
-     * @var string
-     */
-    private $filesPrivateSourcePath;
-
-    /*
-     * @var string
-     */
-    private $settingsSourcePath;
-
-    /*
-     * @var array
-     */
-    private $ignoreSourceDirs = ['vendor', 'cnf'];
-
-    /*
-     * @var array
-     */
-    private $customFileExtentions = array(
-        'php',
-        'inc',
-        'module',
-        'info',
-        'install',
-    );
+    private $config;
 
     public function __construct(
-        $sourceRoot,
-        $destination,
-        $filesPublicSourcePath,
-        $filesPrivateSourcePath,
-        $settingsSourcePath
+        Config $config
     )
     {
-        $this->sourceRoot             = rtrim($sourceRoot, DIRECTORY_SEPARATOR);
-        $this->destination            = rtrim($destination, DIRECTORY_SEPARATOR);
-        $this->filesPublicSourcePath  = $filesPublicSourcePath;
-        $this->filesPrivateSourcePath = $filesPrivateSourcePath;
-        $this->settingsSourcePath     = $settingsSourcePath;
+        $this->config = $config;
     }
 
     public function getSourceRoot()
     {
-        $fullSourceRoot = implode(DIRECTORY_SEPARATOR, [getcwd(), $this->sourceRoot]);
+        $root = $this->config->getSourceConfig()['source_root'];
+        $fullSourceRoot = implode(DIRECTORY_SEPARATOR, [getcwd(), $root]);
 
         return $fullSourceRoot;
     }
 
     public function getIgnoredDirs()
     {
-        $this->ignoreSourceDirs[] = $this->destination;
+        $ignoreSourceDirs = $this->config->getFinderConfig()['ignore_dirs'];
+        $ignoreSourceDirs[] = $this->config->getDestination();
 
-        return $this->ignoreSourceDirs;
+        return $ignoreSourceDirs;
+    }
+
+    public function getFileExt()
+    {
+        return $this->config->getFinderConfig()['custom_file_extensions'];
     }
 
     public function getFilesPublicSourcePath()
     {
-        return $this->filesPublicSourcePath;
+        return $this->config->getSourceConfig()['files_public'];
     }
 
     public function getFilesPrivateSourcePath()
     {
-        return $this->filesPrivateSourcePath;
+        return $this->config->getSourceConfig()['files_private'];
     }
 
     public function getSettingsSourcePath()
     {
-        return $this->settingsSourcePath;
+        return $this->config->getSourceConfig()['settings'];
     }
 
     public function getFinder()
@@ -133,7 +102,7 @@ class Finder
         }
 
         else {
-            foreach ($this->customFileExtentions as $extension) {
+            foreach ($this->getFileExt() as $extension) {
                 $finder->name("*.{$extension}");
             }
         }

@@ -11,21 +11,36 @@ The drupal:canal command specifications:
 ```
 bin/rootcanal
 ```
-Will run generate a drupal root directory inside a `www` directory using your composer installation and custom files and directories that are in your project's root.  
+Will run generate a drupal root directory inside www using your composer installation and custom files and directories that are in your project's root.
 
-You can override the default name of the destination path with:  
-```
-bin/rootcanal --destination=docroot
-```
-You can override the default source path of your custom directories and files with:  
-```
-bin/rootcanal --source=my_custom_dir
-```
 By default, modules, themes, and custom directories will be symlinked into a Drupal root.
 You can instead copy all files and directories with:  
 ```
 bin/rootcanal --prod
 ```
+
+Rootcanal uses the following settings by default:
+```yml
+default:
+  destination_paths:
+    root: www
+    module: sites/all/modules
+    theme: sites/all/themes
+    drush: sites/all/drush
+    profile: profiles
+    vendor: sites/default/vendor
+    files_public: sites/default/files
+    files_private: sites/default/files-private
+    settings: sites/default/settings.php
+  source_paths:
+    files_public: cnf/files
+    files_private: cnf/private
+    settings: cnf/settings.php
+  finder_settings:
+    ignore_dirs: [vendor, cnf]
+    custom_file_extensions: [php, inc, module, info, install]
+```
+You can override the destination and source defaults with your own `drupal.yml`, which you should place either in your project root or in a directory called `cnf` or `config`. See this project's `drupal.yml.dist`.
 
 ##Credits
 This library is a reworking of [drupal/tangler](https://github.com/winmillwill/drupal-tangler) to accommodate the abstraction of configuration, the ability to generate a production artifact, and to make it more testable. All glory belongs to [winmillwill](https://github.com/winmillwill).
