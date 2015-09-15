@@ -59,6 +59,7 @@ class Config
         $destination,
         $modulePath,
         $themePath,
+        $libraryPath,
         $drushPath,
         $profilePath,
         $filesPublicPath,
@@ -70,6 +71,7 @@ class Config
         $this->destination      = $this->getDestination($destination);
         $this->modulePath       = $modulePath;
         $this->themePath        = $themePath;
+        $this->libraryPath      = $libraryPath;
         $this->drushPath        = $drushPath;
         $this->profilePath      = $profilePath;
         $this->filesPublicPath  = $filesPublicPath;
@@ -98,6 +100,7 @@ class Config
             'module'        => $this->destination . $this->modulePath,
             'custom'        => $this->destination . $this->modulePath . '/%s',
             'theme'         => $this->destination . $this->themePath,
+            'librarie'      => $this->destination . $this->libraryPath,
             'drush'         => $this->destination . $this->drushPath,
             'profile'       => $this->destination . $this->profilePath,
             'files-public'  => $this->destination . $this->filesPublicPath,

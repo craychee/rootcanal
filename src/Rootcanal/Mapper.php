@@ -75,6 +75,7 @@ class Mapper
             $this->mapCustomByType('profile'),
             $this->mapCustomByType('module'),
             $this->mapCustomByType('theme'),
+            $this->mapCustomByType('librarie'),
             $this->mapCustomFiles(),
             $this->mapVendor(),
             $this->mapSettings(),

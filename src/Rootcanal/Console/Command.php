@@ -118,6 +118,7 @@ EOF
             $input->getOption('destination'),
             '/sites/all/modules/%s',
             '/sites/all/themes/%s',
+            '/sites/all/libraries/%s',
             '/sites/all/drush/%s',
             '/profiles/%s',
             '/sites/default/files',
