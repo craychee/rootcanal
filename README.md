@@ -27,5 +27,8 @@ You can instead copy all files and directories with:
 bin/rootcanal --prod
 ```
 
+##Libraries
+Currently, this solution does not elegantly accommodate libraries. You can see an example of how to work around this [here](https://gist.github.com/craychee/950136f52edefab3f839). The next release, currently in dev, will resolve this by allowing for configuration, such as libraries, to be passed in with a yml config file.
+
 ##Credits
 This library is a reworking of [drupal/tangler](https://github.com/winmillwill/drupal-tangler) to accommodate the abstraction of configuration, the ability to generate a production artifact, and to make it more testable. All glory belongs to [winmillwill](https://github.com/winmillwill).
