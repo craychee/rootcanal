@@ -18,7 +18,7 @@ class Finder
     private $config;
 
     public function __construct(
-        Config $config
+         $config
     )
     {
         $this->config = $config;

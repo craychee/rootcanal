@@ -4,6 +4,7 @@ namespace Rootcanal\Config;
 use Rootcanal\Config\ConfigLoader;
 use Rootcanal\Config\ConfigTree;
 use Symfony\Component\Config\Definition\Processor;
+use Symfony\Component\Finder\Finder as BaseFinder;
 
 class Config
 {
@@ -64,24 +65,28 @@ class Config
      */
     protected function getConfigPath()
     {
-        $cwd = rtrim(getcwd(), DIRECTORY_SEPARATOR);
-        $paths = array_filter(
-            array(
-                $cwd . DIRECTORY_SEPARATOR . 'drupal.yml',
-                $cwd . DIRECTORY_SEPARATOR . 'drupal.yml.dist',
-                $cwd . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'drupal.yml',
-                $cwd . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'drupal.yml.dist',
-                $cwd . DIRECTORY_SEPARATOR . 'cnf' . DIRECTORY_SEPARATOR . 'drupal.yml',
-                $cwd . DIRECTORY_SEPARATOR . 'cnf' . DIRECTORY_SEPARATOR . 'drupal.yml.dist',
-            ),
-            'is_file'
-        );
+        $path = null;
 
-        if (count($paths)) {
-            return current($paths);
+        $finder = new BaseFinder;
+        $finder->in(rtrim(getcwd(), DIRECTORY_SEPARATOR))->exclude(array('bin', '.vagrant', 'vendor'));
+
+        // Look for a specified file first.
+        foreach ($finder->name('/drupal\.yml$/') as $file) {
+          $path = $file->getRelativePathname();
+          continue;
         }
-
-        return null;
+        // Look for a generic version of the file.
+        if (empty($path)) {
+          foreach ($finder->name('/drupal\.dist\.yml$/') as $file) {
+            $path = $file->getRelativePathname();
+            continue;
+          }
+        }
+        // The default is hard coded to this repository.
+        if (empty($path)) {
+          $path = __DIR__ . "/../../../drupal.dist.yml";
+        }
+        return $path;
     }
 
     /**
