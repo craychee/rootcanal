@@ -4,6 +4,7 @@ namespace Rootcanal\Config;
 use Rootcanal\Config\ConfigLoader;
 use Rootcanal\Config\ConfigTree;
 use Symfony\Component\Config\Definition\Processor;
+use Symfony\Component\Finder\Finder as BaseFinder;
 
 class Config
 {
@@ -64,25 +65,45 @@ class Config
      */
     protected function getConfigPath()
     {
-        $cwd = rtrim(getcwd(), DIRECTORY_SEPARATOR);
-        $paths = array_filter(
-            array(
-                $cwd . DIRECTORY_SEPARATOR . 'drupal.yml',
-                $cwd . DIRECTORY_SEPARATOR . 'drupal.yml.dist',
-                $cwd . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'drupal.yml',
-                $cwd . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'drupal.yml.dist',
-                $cwd . DIRECTORY_SEPARATOR . 'cnf' . DIRECTORY_SEPARATOR . 'drupal.yml',
-                $cwd . DIRECTORY_SEPARATOR . 'cnf' . DIRECTORY_SEPARATOR . 'drupal.yml.dist',
-            ),
-            'is_file'
-        );
-
-        if (count($paths)) {
-            return current($paths);
+        $path = null;
+        $finder = new BaseFinder;
+        $finder->in(rtrim(getcwd(), DIRECTORY_SEPARATOR))->exclude(array('bin', '.vagrant', 'vendor'));
+        if (!$path = $this->getProjectConfigPath($finder)) {
+            if (!$path = $this->getDistributionConfigPath($finder)) {
+              $path = $this->getDefaultConfigPath();
+            }
         }
-
-        return null;
+        return $path;
     }
+
+    /**
+     * Finds the path to the project configuration.
+     */
+    protected function getProjectConfigPath(BaseFinder $finder)
+    {
+        foreach($finder->name('/drupal\.yml$/') as $file) {
+            return $file->getRelativePathname();
+        }
+    }
+
+    /**
+     * Finds the path to the distribution configuration.
+     */
+    protected function getDistributionConfigPath(BaseFinder $finder)
+    {
+        foreach($finder->name('/drupal\.dist\.yml$/') as $file) {
+            return $file->getRelativePathname();
+        }
+    }
+
+    /**
+     * Returns the path to the default configuration.
+     */
+    protected function getDefaultConfigPath()
+    {
+        return __DIR__ . "/../../../drupal.dist.yml";
+    }
+
 
     /**
      * Creates configuration loader.

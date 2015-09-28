@@ -17,20 +17,20 @@ class ConfigTree implements ConfigurationInterface
     protected $defaults = array(
         'destination_paths' => array(
             'root'          => 'www',
-            'module'        => 'sites' . DIRECTORY_SEPARATOR . 'all' . DIRECTORY_SEPARATOR . 'modules',
-            'theme'         => 'sites' . DIRECTORY_SEPARATOR . 'all' . DIRECTORY_SEPARATOR . 'themes',
-            'drush'         => 'sites' . DIRECTORY_SEPARATOR . 'all' . DIRECTORY_SEPARATOR . 'drush',
+            'module'        => "sites{DIRECTORY_SEPARATOR}all{DIRECTORY_SEPARATOR}modules",
+            'theme'         => "sites{DIRECTORY_SEPARATOR}all{DIRECTORY_SEPARATOR}themes",
+            'drush'         => "sites{DIRECTORY_SEPARATOR}all{DIRECTORY_SEPARATOR}drush",
             'profile'       => 'profiles',
-            'vendor'        => 'sites' . DIRECTORY_SEPARATOR . 'default' . DIRECTORY_SEPARATOR . 'vendor',
-            'files_public'  => 'sites' . DIRECTORY_SEPARATOR . 'default' . DIRECTORY_SEPARATOR . 'files',
-            'files_private' => 'sites' . DIRECTORY_SEPARATOR . 'default' . DIRECTORY_SEPARATOR . 'files-private',
-            'settings'      => 'sites' . DIRECTORY_SEPARATOR . 'default' . DIRECTORY_SEPARATOR . 'settings.php',
+            'vendor'        => "sites{DIRECTORY_SEPARATOR}default{DIRECTORY_SEPARATOR}vendor",
+            'files_public'  => "sites{DIRECTORY_SEPARATOR}default{DIRECTORY_SEPARATOR}files",
+            'files_private' => "sites{DIRECTORY_SEPARATOR}default{DIRECTORY_SEPARATOR}files-private",
+            'settings'      => "sites{DIRECTORY_SEPARATOR}default{DIRECTORY_SEPARATOR}settings.php"
         ),
         'source_paths' => array(
            'source_root'   => '',
-           'files_public'  => 'cnf' . DIRECTORY_SEPARATOR . 'files',
-           'files_private' => 'cnf' . DIRECTORY_SEPARATOR . 'private',
-           'settings'      => 'cnf' . DIRECTORY_SEPARATOR . 'settings.php',
+           'files_public'  => "cnf{DIRECTORY_SEPARATOR}files",
+           'files_private' => "cnf{DIRECTORY_SEPARATOR}private",
+           'settings'      => "cnf{DIRECTORY_SEPARATOR}settings.php",
         ),
         'finder_settings' => array(
             'ignore_dirs' => ['vendor', 'cnf'],

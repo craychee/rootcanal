@@ -40,7 +40,7 @@ default:
     ignore_dirs: [vendor, cnf]
     custom_file_extensions: [php, inc, module, info, install]
 ```
-You can override the destination and source defaults with your own `drupal.yml`, which you should place either in your project root or in a directory called `cnf` or `config`. See this project's `drupal.yml.dist`.
+You can override the destination and source defaults with your own `drupal.yml`, which you should place in your project root. `config/drupal` is a good place for it. See this project's `drupal.dist.yml`.
 
 ##Credits
 This library is a reworking of [drupal/tangler](https://github.com/winmillwill/drupal-tangler) to accommodate the abstraction of configuration, the ability to generate a production artifact, and to make it more testable. All glory belongs to [winmillwill](https://github.com/winmillwill).
