@@ -104,7 +104,6 @@ class Config
         return __DIR__ . "/../../../drupal.dist.yml";
     }
 
-
     /**
      * Creates configuration loader.
      *
