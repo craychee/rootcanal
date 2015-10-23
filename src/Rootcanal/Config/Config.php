@@ -81,7 +81,7 @@ class Config
      */
     protected function getProjectConfigPath(BaseFinder $finder)
     {
-        foreach($finder->name('/drupal\.yml$/') as $file) {
+        foreach($finder->name('/rootcanal\.yml$/') as $file) {
             return $file->getRelativePathname();
         }
     }
@@ -91,7 +91,7 @@ class Config
      */
     protected function getDistributionConfigPath(BaseFinder $finder)
     {
-        foreach($finder->name('/drupal\.dist\.yml$/') as $file) {
+        foreach($finder->name('/rootcanal\.dist\.yml$/') as $file) {
             return $file->getRelativePathname();
         }
     }
@@ -101,7 +101,7 @@ class Config
      */
     protected function getDefaultConfigPath()
     {
-        return __DIR__ . "/../../../drupal.dist.yml";
+        return __DIR__ . "/../../../rootcanal.dist.yml";
     }
 
     /**
